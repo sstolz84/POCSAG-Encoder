@@ -22,10 +22,16 @@
 volatile uint8_t serialxmitstate;
 volatile uint8_t escapenext;
 
+#define UBRR_VAL ((F_CPU+UART_BAUD*8)/(UART_BAUD*16)-1)
+#define BAUD_REAL (F_CPU/(16*(UBRR_VAL+1)))
+#define BAUD_ERROR ((BAUD_REAL*1000)/UART_BAUD)
 
+#if ((BAUD_ERROR<990) || (BAUD_ERROR>1010))
+  #error Baud Error to high, greater 1%! 
+#endif
 
 void InitSerial(void){
-	UBRR0 = 8;
+	UBRR0 = UBRR_VAL;
 	serialxmitstate = XMIT_COMPLETE;
 	escapenext = 0;
 	UCSR0B = (1<<RXCIE0)|(1<<TXCIE0)|(1<<RXEN0)|(1<<TXEN0);

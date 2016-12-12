@@ -24,8 +24,8 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#define F_CPU 16000000UL
 #include <util/delay.h>
+
 #include "Pocsag.h"
 #include "Serial.h"
 #include "SI4432.h"

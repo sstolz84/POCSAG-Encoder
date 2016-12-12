@@ -6,9 +6,10 @@
  */ 
 
 #include <avr/io.h>
-#include "SI4432.h"
-#define F_CPU 16000000UL
+#include <math.h>
 #include <util/delay.h>
+
+#include "SI4432.h"
 
 volatile uint8_t spiret;
 
@@ -19,7 +20,6 @@ void SelectSI(){
 void DeselectSI(){
 	SPIPORT|=(1<<SPI_SS);
 }
-
 
 void WriteSI(uint8_t registerno, uint8_t val){
 	SelectSI();
@@ -80,8 +80,6 @@ void SetupSPI(void){
 	DeselectSI();
 	SetupModule();
 }
-
-
 
 void WaitForSignal(){
 	uint32_t temp;
