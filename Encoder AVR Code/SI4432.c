@@ -64,9 +64,14 @@ void SetupFreq(){
     
 	uint16_t offsettwo = 0;
 	offsettwo+=offset;
-	WriteSI(0x74,(uint8_t)((offsettwo>>8)&0xFF));
-	WriteSI(0x73,(uint8_t)((offsettwo)&0xFF));
+	WriteSI(0x74,(uint8_t)((offsettwo>>8)&0xFF)); // Frequency Offset 2
+	WriteSI(0x73,(uint8_t)((offsettwo)&0xFF));    // Frequency Offset 1
 }
+
+void SetupPower(){
+	WriteSI(0x6D,(uint8_t)(xmitpower&0x07));      // TX Power
+}
+
 void SetupModule(){
 	WriteSI(0x6E,0x09); // TX Data Rate 1
 	WriteSI(0x6F,0xD5); // TX Data Rate 0

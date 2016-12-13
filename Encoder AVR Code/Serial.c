@@ -156,6 +156,16 @@ void ProcessSerialData(){
 		SaveSettings();
 		strcpy_P(message,PSTR("OK\0"));
 		SerialXmitStart();
+	} else if(strncmp_P(message,PSTR("POWER:"),6)==0){
+		xmitpower = strtol(message+6,NULL,10);
+		if(xmitpower>=1&&xmitpower<=8){
+			strcpy_P(message,PSTR("OK\0"));
+			xmitpower--;
+			SetupPower();
+		} else {
+			strcpy_P(message,PSTR("ERROR\0"));
+		}
+		SerialXmitStart();
 	} else if(strncmp_P(message,PSTR("GETVOLT"),7)==0){
 		strcpy_P(message,PSTR("ADC VALUE=       \0"));
 		ltoa(ADCval,&(message[10]),10);
@@ -220,6 +230,8 @@ void ProcessSerialData(){
 		strcpy_P(message,PSTR("- OFFSET: Sets TX offset\0"));
 		SerialXmitStartWait();
 		strcpy_P(message,PSTR("- FREQ: Sets frequency. Expects something like 439.9875 for 439,9875 MHz.\0"));
+		SerialXmitStartWait();
+		strcpy_P(message,PSTR("- POWER: Sets output power. 1 = 1dBm, 2 = 2 dBm, 3 = 5dBm, 4 = 8dBm, 5 = 11dBm, 6 = 14 dBm, 7 = 17dBm, 8 = 20dBm\0"));
 		SerialXmitStartWait();
 		strcpy_P(message,PSTR("- PWRLOSSMSG: Sets the message that is sent to the configured pager during an outage. Set empty if you don't want a message to be sent. Max 160 chars\0"));
 		SerialXmitStartWait();

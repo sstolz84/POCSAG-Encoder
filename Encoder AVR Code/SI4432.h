@@ -34,6 +34,6 @@ void SetupSPI(void);
 void WaitForSignal(void);
 void SIRX(void);
 void SetupFreq();
-
+void SetupPower();
 
 #endif /* SI4432_H_ */

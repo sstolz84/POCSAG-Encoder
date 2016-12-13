@@ -14,6 +14,7 @@
 uint32_t EEMEM EERic = 10238;
 uint8_t EEMEM EEFunc = 0;
 uint8_t EEMEM EEType = 3;
+uint8_t EEMEM EEPower = 0;
 uint16_t EEMEM EEBaud = 1200;
 float EEMEM EEFreq = 439.9875;
 int16_t EEMEM EEOffset = 0;
@@ -27,6 +28,7 @@ void SaveSettings(void){
 	eeprom_update_dword(&(EERic),pagerric);
 	eeprom_update_byte(&(EEFunc),functiontype);
 	eeprom_update_byte(&(EEType),messagetype);
+	eeprom_update_byte(&(EEPower),xmitpower);
 	eeprom_update_word(&(EEBaud),baudrate);
 	eeprom_update_float(&(EEFreq),xmitfreq);
 	eeprom_update_word(&(EEOffset),offset);
@@ -40,11 +42,13 @@ void LoadSettings(void){
 	pagerric = eeprom_read_dword(&(EERic));
 	functiontype = eeprom_read_byte(&(EEFunc));
 	messagetype = eeprom_read_byte(&(EEType));
+	xmitpower = eeprom_read_byte(&(EEPower));
 	baudrate = eeprom_read_word(&(EEBaud));
 	xmitfreq = eeprom_read_float(&(EEFreq));
 	offset = eeprom_read_word(&(EEOffset));
 	ADCThreshold = eeprom_read_byte(&(EEPowerLossThreshold));
 	SetupFreq();
+	SetupPower();
 }
 
 void SavePowerLossMsg(void){
