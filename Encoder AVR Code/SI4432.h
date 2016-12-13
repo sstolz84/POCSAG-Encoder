@@ -26,6 +26,7 @@
 #define GPIO_DATA_IN PORTB1 //gpio0
 
 float xmitfreq;
+uint8_t xmitpower;
 int16_t offset;
 
 void SIXmit();
