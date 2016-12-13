@@ -144,9 +144,13 @@ void ProcessSerialData(){
 			StartXmit();
 		}
 	} else if(strncmp_P(message,PSTR("FREQ:"),5)==0){
-		xmitfreq = strtol(message+5,NULL,16);
-		strcpy_P(message,PSTR("OK\0"));
-		SetupFreq();
+		xmitfreq = atof(message+5);
+		if(xmitfreq>=240.000&&xmitfreq<=930.000){
+			strcpy_P(message,PSTR("OK\0"));
+			SetupFreq();
+		} else {
+			strcpy_P(message,PSTR("ERROR\0"));
+		}
 		SerialXmitStart();
 	} else if(strncmp_P(message,PSTR("SAVE"),4)==0){
 		SaveSettings();
@@ -215,7 +219,7 @@ void ProcessSerialData(){
 		SerialXmitStartWait();
 		strcpy_P(message,PSTR("- OFFSET: Sets TX offset\0"));
 		SerialXmitStartWait();
-		strcpy_P(message,PSTR("- FREQ: Sets frequency. Expects something like 0x5616F8 for 460,91875Mhz. Can be calculated using some SI excel sheet.\0"));
+		strcpy_P(message,PSTR("- FREQ: Sets frequency. Expects something like 439.9875 for 439,9875 MHz.\0"));
 		SerialXmitStartWait();
 		strcpy_P(message,PSTR("- PWRLOSSMSG: Sets the message that is sent to the configured pager during an outage. Set empty if you don't want a message to be sent. Max 160 chars\0"));
 		SerialXmitStartWait();
